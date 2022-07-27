@@ -75,4 +75,8 @@ jobs:
         run: go build -v ./...
 
       - name: Test
-        run: go test -v ./...
+        run: |
+          go get github.com/onsi/ginkgo
+          ginkgo --focus "\[TAIRSTRING\]"   ./tair
+          ginkgo --focus "\[TAIRSHASH\]"    ./tair
+          ginkgo --focus "\[TAIRZSET\]"     ./tair

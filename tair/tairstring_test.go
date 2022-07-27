@@ -22,7 +22,7 @@ var _ = Describe("tair string commands", func() {
 	})
 
 	Describe("tair string", func() {
-		It("Cas", func() {
+		It("[TAIRSTRING] Cas", func() {
 			tairClient.Set(ctx, "k1", "v1", 0)
 			n, err := tairClient.Cas(ctx, "k1", "v2", "v3").Result()
 			Expect(err).NotTo(HaveOccurred())
@@ -34,7 +34,7 @@ var _ = Describe("tair string commands", func() {
 			Expect(err).NotTo(HaveOccurred())
 			Expect(res).To(Equal("v3"))
 		})
-		It("Cas Args", func() {
+		It("[TAIRSTRING] Cas Args", func() {
 			tairClient.Set(ctx, "foo", "bzz", 0)
 			tairClient.CasArgs(ctx, "foo", "bzz", "too", tair.CasArgs{}.New().Ex(1))
 			result, err := tairClient.Get(ctx, "foo").Result()
@@ -45,7 +45,7 @@ var _ = Describe("tair string commands", func() {
 			Expect(result1).To(Equal(""))
 			Expect(err1).To(HaveOccurred())
 		})
-		It("Cad", func() {
+		It("[TAIRSTRING] Cad", func() {
 			tairClient.Set(ctx, "foo", "bar", 0)
 			res, err := tairClient.Cad(ctx, "foo", "bzz").Result()
 			Expect(err).NotTo(HaveOccurred())
@@ -54,7 +54,7 @@ var _ = Describe("tair string commands", func() {
 			Expect(err1).NotTo(HaveOccurred())
 			Expect(res1).To(Equal(int64(1)))
 		})
-		It("ExSetArgs", func() {
+		It("[TAIRSTRING] ExSetArgs", func() {
 			result2, err2 := tairClient.ExSetArgs(ctx, "foo", "bar", tair.ExSetArgs{}.New().Xx()).Result()
 			Expect(err2).To(HaveOccurred())
 			Expect(result2).To(Equal(""))
@@ -62,7 +62,7 @@ var _ = Describe("tair string commands", func() {
 			Expect(err3).NotTo(HaveOccurred())
 			Expect(result3).To(Equal("OK"))
 		})
-		It("ExGet", func() {
+		It("[TAIRSTRING] ExGet", func() {
 			result2, err2 := tairClient.ExSetArgs(ctx, "foo", "bar", tair.ExSetArgs{}.New().Abs(100)).Result()
 			Expect(err2).NotTo(HaveOccurred())
 			Expect(result2).To(Equal("OK"))
@@ -71,7 +71,7 @@ var _ = Describe("tair string commands", func() {
 			Expect(result4[0]).To(Equal("bar"))
 			Expect(result4[1]).To(Equal(int64(100)))
 		})
-		It("ExGet with flags", func() {
+		It("[TAIRSTRING] ExGet with flags", func() {
 			a := tair.ExSetArgs{}.New()
 			a.Abs(88)
 			a.Flags(99)
@@ -84,7 +84,7 @@ var _ = Describe("tair string commands", func() {
 			Expect(res[1]).To(Equal(int64(88)))
 			Expect(res[2]).To(Equal(int64(99)))
 		})
-		It("ExIncrBy", func() {
+		It("[TAIRSTRING] ExIncrBy", func() {
 			result, err := tairClient.ExIncrBy(ctx, "foo", 100).Result()
 			Expect(err).NotTo(HaveOccurred())
 			Expect(result).To(Equal(int64(100)))
@@ -93,7 +93,7 @@ var _ = Describe("tair string commands", func() {
 			_, err1 := tairClient.ExIncrByArgs(ctx, "foo", 100, a).Result()
 			Expect(err1).To(HaveOccurred())
 		})
-		It("ExIncrByArgs", func() {
+		It("[TAIRSTRING] ExIncrByArgs", func() {
 			result, err := tairClient.ExIncrBy(ctx, "foo", 100).Result()
 			Expect(err).NotTo(HaveOccurred())
 			Expect(result).To(Equal(int64(100)))
@@ -103,13 +103,13 @@ var _ = Describe("tair string commands", func() {
 			Expect(err1).NotTo(HaveOccurred())
 			Expect(res1).To(Equal(int64(200)))
 		})
-		It("ExIncrByFloat", func() {
+		It("[TAIRSTRING] ExIncrByFloat", func() {
 			tairClient.ExSet(ctx, "foo", 100)
 			result, err := tairClient.ExIncrByFloat(ctx, "foo", 10.123).Result()
 			Expect(err).NotTo(HaveOccurred())
 			Expect(result).To(Equal(110.123))
 		})
-		It("ExCas", func() {
+		It("[TAIRSTRING] ExCas", func() {
 			tairClient.ExSet(ctx, "foo", "bar")
 			res2, err2 := tairClient.ExCas(ctx, "foo", "bzz", 1).Result()
 			Expect(err2).NotTo(HaveOccurred())
@@ -123,7 +123,7 @@ var _ = Describe("tair string commands", func() {
 			Expect(res3[2]).To(Equal(int64(2)))
 		})
 
-		It("ExCad", func() {
+		It("[TAIRSTRING] ExCad", func() {
 			tairClient.ExSet(ctx, "foo", "bar")
 			result, err := tairClient.ExCad(ctx, "foo", 0).Result()
 			Expect(err).NotTo(HaveOccurred())
@@ -132,17 +132,17 @@ var _ = Describe("tair string commands", func() {
 			Expect(err1).NotTo(HaveOccurred())
 			Expect(result1).To(Equal(int64(1)))
 		})
-		It("EXAPPEND", func() {
+		It("[TAIRSTRING] EXAPPEND", func() {
 			result, err := tairClient.ExAppend(ctx, "exstringkey ", "foo", "nx", "ver", 99).Result()
 			Expect(err).NotTo(HaveOccurred())
 			Expect(result).To(Equal(int64(1)))
 		})
-		It("EXPREPEND", func() {
+		It("[TAIRSTRING] EXPREPEND", func() {
 			result, err := tairClient.ExPreAppend(ctx, "exstringkey ", "foo", "nx", "ver", 99).Result()
 			Expect(err).NotTo(HaveOccurred())
 			Expect(result).To(Equal(int64(1)))
 		})
-		It("EXGAE", func() {
+		It("[TAIRSTRING] EXGAE", func() {
 			a := tair.ExSetArgs{}.New()
 			a.Ex(10)
 			a.Flags(123)
