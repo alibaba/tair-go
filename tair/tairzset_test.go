@@ -21,7 +21,7 @@ var _ = Describe("tair zset commands", func() {
 	})
 
 	Describe("tair zset", func() {
-		It("zset should Add", func() {
+		It("[TAIRZSET] zset should Add", func() {
 			res, err := tairClient.ExZAdd(ctx, "k1", "90.1", "v1").Result()
 			Expect(err).NotTo(HaveOccurred())
 			Expect(res).To(Equal(int64(1)))
@@ -30,7 +30,7 @@ var _ = Describe("tair zset commands", func() {
 			Expect(zRangeRes[0]).To(Equal("v1"))
 		})
 
-		It("exzadd test", func() {
+		It("[TAIRZSET] exzadd test", func() {
 			res, err := tairClient.ExZAdd(ctx, "foo", "1", "a").Result()
 			Expect(err).NotTo(HaveOccurred())
 			Expect(res).To(Equal(int64(1)))
@@ -44,7 +44,7 @@ var _ = Describe("tair zset commands", func() {
 			Expect(res).To(Equal(int64(0)))
 		})
 
-		It("exzadd params", func() {
+		It("[TAIRZSET] exzadd params", func() {
 			res, err := tairClient.ExZAddArgs(ctx, "foo", "1", "a", tair.ExZAddArgs{}.New().Xx()).Result()
 			Expect(err).NotTo(HaveOccurred())
 			Expect(res).To(Equal(int64(0)))
@@ -63,7 +63,7 @@ var _ = Describe("tair zset commands", func() {
 			Expect(res).To(Equal(int64(2)))
 		})
 
-		It("exzrange basic", func() {
+		It("[TAIRZSET] exzrange basic", func() {
 			res, err := tairClient.ExZAddManyMember(ctx, "foo",
 				tair.ExZAddMember{Score: "1", Member: "a"}, tair.ExZAddMember{Score: "10", Member: "b"},
 				tair.ExZAddMember{Score: "0.1", Member: "c"}, tair.ExZAddMember{Score: "2", Member: "a"}).Result()
@@ -83,7 +83,7 @@ var _ = Describe("tair zset commands", func() {
 			Expect(ss).To(Equal([]string{"b", "a"}))
 		})
 
-		It("exzrange by lex", func() {
+		It("[TAIRZSET] exzrange by lex", func() {
 			res, err := tairClient.ExZAddManyMember(ctx, "foo",
 				tair.ExZAddMember{Score: "1", Member: "aa"}, tair.ExZAddMember{Score: "1", Member: "c"},
 				tair.ExZAddMember{Score: "1", Member: "bb"}, tair.ExZAddMember{Score: "1", Member: "d"}).Result()
@@ -99,7 +99,7 @@ var _ = Describe("tair zset commands", func() {
 			Expect(ss).To(Equal([]string{"bb", "c"}))
 		})
 
-		It("exzrem basic", func() {
+		It("[TAIRZSET] exzrem basic", func() {
 			res, err := tairClient.ExZAddManyMember(ctx, "foo",
 				tair.ExZAddMember{Score: "1", Member: "a"}, tair.ExZAddMember{Score: "2", Member: "b"}).Result()
 			Expect(err).NotTo(HaveOccurred())
@@ -110,7 +110,7 @@ var _ = Describe("tair zset commands", func() {
 			Expect(is).To(Equal(int64(1)))
 		})
 
-		It("exzincrby bacis", func() {
+		It("[TAIRZSET] exzincrby bacis", func() {
 			res, err := tairClient.ExZAddManyMember(ctx, "foo",
 				tair.ExZAddMember{Score: "1", Member: "a"}, tair.ExZAddMember{Score: "2", Member: "b"}).Result()
 			Expect(err).NotTo(HaveOccurred())
@@ -121,7 +121,7 @@ var _ = Describe("tair zset commands", func() {
 			Expect(ss).To(Equal("3"))
 		})
 
-		It("exzrank basic", func() {
+		It("[TAIRZSET] exzrank basic", func() {
 			res, err := tairClient.ExZAddManyMember(ctx, "foo",
 				tair.ExZAddMember{Score: "1", Member: "a"}, tair.ExZAddMember{Score: "2", Member: "b"}).Result()
 			Expect(err).NotTo(HaveOccurred())
@@ -140,7 +140,7 @@ var _ = Describe("tair zset commands", func() {
 			Expect(res).To(Equal(int64(1)))
 		})
 
-		It("exzrangewithscore basic", func() {
+		It("[TAIRZSET] exzrangewithscore basic", func() {
 			res, err := tairClient.ExZAddManyMember(ctx, "foo",
 				tair.ExZAddMember{Score: "1", Member: "a"}, tair.ExZAddMember{Score: "10", Member: "b"},
 				tair.ExZAddMember{Score: "0.1", Member: "c"}, tair.ExZAddMember{Score: "2", Member: "a"}).Result()
@@ -152,7 +152,7 @@ var _ = Describe("tair zset commands", func() {
 			Expect(ss).To(Equal([]string{"c", "0.10000000000000001", "a", "2"}))
 		})
 
-		It("exzcard basic", func() {
+		It("[TAIRZSET] exzcard basic", func() {
 			res, err := tairClient.ExZAddManyMember(ctx, "foo",
 				tair.ExZAddMember{Score: "1", Member: "a"}, tair.ExZAddMember{Score: "10", Member: "b"},
 				tair.ExZAddMember{Score: "0.1", Member: "c"}, tair.ExZAddMember{Score: "2", Member: "a"}).Result()
@@ -168,7 +168,7 @@ var _ = Describe("tair zset commands", func() {
 			Expect(ss).To(Equal("10"))
 		})
 
-		It("exzcount basic", func() {
+		It("[TAIRZSET] exzcount basic", func() {
 			res, err := tairClient.ExZAddManyMember(ctx, "foo",
 				tair.ExZAddMember{Score: "1", Member: "a"}, tair.ExZAddMember{Score: "10", Member: "b"},
 				tair.ExZAddMember{Score: "0.1", Member: "c"}, tair.ExZAddMember{Score: "2", Member: "a"}).Result()
@@ -180,7 +180,7 @@ var _ = Describe("tair zset commands", func() {
 			Expect(res).To(Equal(int64(2)))
 		})
 
-		It("exzremrange by rank", func() {
+		It("[TAIRZSET] exzremrange by rank", func() {
 			res, err := tairClient.ExZAddManyMember(ctx, "foo",
 				tair.ExZAddMember{Score: "1", Member: "a"}, tair.ExZAddMember{Score: "10", Member: "b"},
 				tair.ExZAddMember{Score: "0.1", Member: "c"}, tair.ExZAddMember{Score: "2", Member: "a"}).Result()

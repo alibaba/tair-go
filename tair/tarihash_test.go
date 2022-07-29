@@ -22,7 +22,7 @@ var _ = Describe("tair string commands", func() {
 		Expect(tairClient.Close()).NotTo(HaveOccurred())
 	})
 	Describe("tair hash", func() {
-		It("EXHGET", func() {
+		It("[TAIRSHASH] EXHGET", func() {
 			res, err := tairClient.ExHSet(ctx, "k1", "f1", "v1").Result()
 			Expect(err).NotTo(HaveOccurred())
 			Expect(res).To(Equal(int64(1)))
@@ -34,7 +34,7 @@ var _ = Describe("tair string commands", func() {
 			Expect(result).To(Equal("v1"))
 		})
 
-		It("ExHSetByArgs", func() {
+		It("[TAIRSHASH] ExHSetByArgs", func() {
 			a := tair.ExHSetArgs{}.New()
 			a.Set = make(map[string]bool)
 			a.Xx()
@@ -46,7 +46,7 @@ var _ = Describe("tair string commands", func() {
 			Expect(res).To(Equal(int64(0)))
 		})
 
-		It("ExHSetNx", func() {
+		It("[TAIRSHASH] ExHSetNx", func() {
 			res, err := tairClient.ExHSetNx(ctx, "k1", "f1", "v1").Result()
 			Expect(err).NotTo(HaveOccurred())
 			Expect(res).To(Equal(int64(1)))
@@ -55,7 +55,7 @@ var _ = Describe("tair string commands", func() {
 			Expect(res).To(Equal(int64(1)))
 		})
 
-		It("EXHMGET", func() {
+		It("[TAIRSHASH] EXHMGET", func() {
 			a := make(map[string]string)
 			a["f1"] = "v1"
 			a["f2"] = "v2"
@@ -70,7 +70,7 @@ var _ = Describe("tair string commands", func() {
 			Expect(result[2]).To(Equal("v3"))
 		})
 
-		It("ExHMSetWithOpts", func() {
+		It("[TAIRSHASH] ExHMSetWithOpts", func() {
 			b := tair.ExHMSetWithOptsArgs{}.New()
 			b.Field("f1")
 			b.Value("v1")
@@ -80,7 +80,7 @@ var _ = Describe("tair string commands", func() {
 			Expect(err).NotTo(HaveOccurred())
 		})
 
-		It("ExHPExpire", func() {
+		It("[TAIRSHASH] ExHPExpire", func() {
 			res, err := tairClient.ExHSet(ctx, "k1", "f1", "v1").Result()
 			Expect(err).NotTo(HaveOccurred())
 			Expect(res).To(Equal(int64(1)))
@@ -91,7 +91,7 @@ var _ = Describe("tair string commands", func() {
 			Expect(res).To(Equal(int64(0)))
 		})
 
-		It("ExHSetVer", func() {
+		It("[TAIRSHASH] ExHSetVer", func() {
 			res, err := tairClient.ExHSet(ctx, "k1", "f1", "v1").Result()
 			Expect(err).NotTo(HaveOccurred())
 			Expect(res).To(Equal(int64(1)))
@@ -105,7 +105,7 @@ var _ = Describe("tair string commands", func() {
 			Expect(res).To(Equal(int64(10)))
 		})
 
-		It("ExHIncrBy", func() {
+		It("[TAIRSHASH] ExHIncrBy", func() {
 			res, err := tairClient.ExHIncrBy(ctx, "k1", "f1", 1).Result()
 			Expect(err).NotTo(HaveOccurred())
 			Expect(res).To(Equal(int64(1)))
@@ -119,12 +119,12 @@ var _ = Describe("tair string commands", func() {
 			Expect(res).To(Equal(int64(-10)))
 		})
 
-		It("ExHIncrByArgs", func() {
+		It("[TAIRSHASH] ExHIncrByArgs", func() {
 			_, err := tairClient.ExHIncrByArgs(ctx, "k1", "f1", 11, tair.ExHIncrArgs{}.New().Min(0).Max(10)).Result()
 			Expect(err.Error()).To(ContainSubstring("ERR increment or decrement would overflow"))
 		})
 
-		It("ExHIncrByFloat", func() {
+		It("[TAIRSHASH] ExHIncrByFloat", func() {
 			res, err := tairClient.ExHIncrByFloat(ctx, "k1", "f1", 1.5).Result()
 			Expect(err).NotTo(HaveOccurred())
 			Expect(res).To(Equal("1.5"))
@@ -138,7 +138,7 @@ var _ = Describe("tair string commands", func() {
 			Expect(res).To(Equal("-10.7"))
 		})
 
-		It("ExHIncrByFloat expire", func() {
+		It("[TAIRSHASH] ExHIncrByFloat expire", func() {
 			res, err := tairClient.ExHIncrByFloatArgs(ctx, "k1", "f1", 5.1, tair.ExHIncrArgs{}.New().Ex(1)).Result()
 			Expect(err).NotTo(HaveOccurred())
 			Expect(res).To(Equal("5.1"))
@@ -150,7 +150,7 @@ var _ = Describe("tair string commands", func() {
 			Expect(res2).To(Equal(int64(0)))
 		})
 
-		It("ExHGetWithVer", func() {
+		It("[TAIRSHASH] ExHGetWithVer", func() {
 			res, err := tairClient.ExHSet(ctx, "k1", "f1", "v1").Result()
 			Expect(err).NotTo(HaveOccurred())
 			Expect(res).To(Equal(int64(1)))
@@ -161,7 +161,7 @@ var _ = Describe("tair string commands", func() {
 			Expect(res2[1]).To(Equal(int64(1)))
 		})
 
-		It("ExHMGetWithVer", func() {
+		It("[TAIRSHASH] ExHMGetWithVer", func() {
 			a := make(map[string]string)
 			a["f1"] = "v1"
 			a["f2"] = "v2"
@@ -177,7 +177,7 @@ var _ = Describe("tair string commands", func() {
 			Expect(result[0]).To(Equal(v1))
 		})
 
-		It("ExHDel ExHLen ExHExists ExHStrLen", func() {
+		It("[TAIRSHASH] ExHDel ExHLen ExHExists ExHStrLen", func() {
 			a := make(map[string]string)
 			a["f1"] = "v1"
 			a["f2"] = "v2"
@@ -211,7 +211,7 @@ var _ = Describe("tair string commands", func() {
 			Expect(res).To(Equal(int64(2)))
 		})
 
-		It("ExHKeys ExHVals", func() {
+		It("[TAIRSHASH] ExHKeys ExHVals", func() {
 			a := make(map[string]string)
 			a["f1"] = "v1"
 			a["f2"] = "v2"
@@ -231,7 +231,7 @@ var _ = Describe("tair string commands", func() {
 			Expect(res).To(Equal([]string{"v1", "v2", "v3"}))
 		})
 
-		It("ExHGetAll", func() {
+		It("[TAIRSHASH] ExHGetAll", func() {
 			a := make(map[string]string)
 			a["f1"] = "v1"
 			a["f2"] = "v2"
