@@ -69,14 +69,20 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v3
         with:
-          go-version: 1.18
+          go-version: 1.19rc2
 
       - name: Build
         run: go build -v ./...
 
       - name: Test
         run: |
-          go get github.com/onsi/ginkgo
+          go install -mod=mod github.com/onsi/ginkgo/v2/ginkgo
+          go get github.com/onsi/gomega/...
+          export PATH=$PATH:$(go env GOPATH)/bin
+          echo "----------------"
+          echo $PATH
+          ls -lR $(go env GOPATH)/bin
+          echo "-----------"
           ginkgo --focus "\[TAIRSTRING\]"   ./tair
           ginkgo --focus "\[TAIRSHASH\]"    ./tair
           ginkgo --focus "\[TAIRZSET\]"     ./tair
